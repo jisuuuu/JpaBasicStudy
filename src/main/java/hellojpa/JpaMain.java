@@ -19,6 +19,13 @@ public class JpaMain {
         //code
         try {
 
+            Member member = new Member();
+            member.setId(3L);
+            member.setUsername("C");
+            member.setRoleType(RoleType.GUEST);
+
+            em.persist(member);
+
             //영속
             /*Member member = new Member(200L, "member200");
             em.persist(member);
