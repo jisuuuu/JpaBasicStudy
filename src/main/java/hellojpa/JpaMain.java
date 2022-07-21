@@ -25,19 +25,25 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
+            //member.changeTeam(team);
             em.persist(member);
+
+            team.addMember(member);
+
+            // 역방향(주인이 아닌 방향)만 연관관계 설정
+            //team.getMembers().add(member); // Member에서 세팅 해줘야 안 헷갈림
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
 
+            System.out.println("========");
             for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
+                System.out.println("m = " + m.getUsername());
             }
-
+            System.out.println("========");
 
             //영속
             /*Member member = new Member(200L, "member200");
