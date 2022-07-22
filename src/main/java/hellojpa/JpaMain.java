@@ -19,7 +19,18 @@ public class JpaMain {
         //code
         try {
 
+            Member member = new Member();
+            member.setUsername("member1");
+
+            em.persist(member);
+
             Team team = new Team();
+            team.setName("teamA");
+            team.getMembers().add(member);
+
+            em.persist(team);
+
+            /*Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
@@ -46,7 +57,7 @@ public class JpaMain {
             System.out.println("========");
 
             //영속
-            /*Member member = new Member(200L, "member200");
+            Member member = new Member(200L, "member200");
             em.persist(member);
 
             em.flush();
