@@ -19,7 +19,21 @@ public class JpaMain {
         //code
         try {
 
-            Member member = new Member();
+            Movie movie = new Movie();
+            movie.setDirector("AAAA");
+            movie.setActor("BBBB");
+            movie.setName("바람과 함께 사라지다");
+            movie.setPrice(10000);
+
+            em.persist(movie);
+
+            em.flush();
+            em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId());
+            System.out.println("findMovie = " + findMovie);
+
+            /*Member member = new Member();
             member.setUsername("member1");
 
             em.persist(member);
@@ -30,7 +44,7 @@ public class JpaMain {
 
             em.persist(team);
 
-            /*Team team = new Team();
+            Team team = new Team();
             team.setName("TeamA");
             em.persist(team);
 
