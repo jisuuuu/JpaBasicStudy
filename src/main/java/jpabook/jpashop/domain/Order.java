@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Entity
+@Entity
 @Table(name = "ORDERS") //ORDER 라고 하면 DB에서 예약어로 걸려있어서
 public class Order {
 
