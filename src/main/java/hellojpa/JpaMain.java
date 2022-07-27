@@ -12,6 +12,7 @@ public class JpaMain {
     public static void main(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
+
         EntityManager em = emf.createEntityManager();
 
         EntityTransaction tx = em.getTransaction();
@@ -19,15 +20,33 @@ public class JpaMain {
 
         //code
         try {
+            Member member1 = new Member();
+            member1.setUsername("hello");
+            em.persist(member1);
 
-            Member member = new Member();
+            em.flush();
+            em.clear();
+
+            Member findMember = em.find(Member.class, member1.getId());
+            System.out.println("findMember = " + findMember.getClass()); // Member
+
+            Member refMember = em.getReference(Member.class, member1.getId());
+            System.out.println("refMember = " + refMember.getClass()); // Proxy
+
+            System.out.println("refMember == findMember : " + (findMember == refMember));
+
+            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember));
+//            printMember(findMember);
+//            printMemberAndTeam(findMember);
+
+            /*Member member = new Member();
             member.setUsername("userA");
             member.setCreatedBy("kim");
             member.setCreatedDate(LocalDateTime.now());
 
             em.persist(member);
 
-            /*Movie movie = new Movie();
+            Movie movie = new Movie();
             movie.setDirector("AAAA");
             movie.setActor("BBBB");
             movie.setName("바람과 함께 사라지다");
@@ -141,5 +160,22 @@ public class JpaMain {
             em.close();
         }
         emf.close();
+    }
+
+    private static void logic(Member m1, Member m2) {
+        System.out.println("m1 == m2 : " + (m1 instanceof Member));
+        System.out.println("m1 == m2 : " + (m2 instanceof Member));
+    }
+
+    private static void printMember(Member member) {
+        System.out.println("member = " + member.getUsername());
+    }
+
+    private static void printMemberAndTeam(Member member) {
+        String username = member.getUsername();
+        System.out.println("username = " + username);
+
+        Team team = member.getTeam();
+        System.out.println("team = " + team);
     }
 }
