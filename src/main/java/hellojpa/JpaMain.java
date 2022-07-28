@@ -1,9 +1,6 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,24 +17,29 @@ public class JpaMain {
 
         //code
         try {
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member1 = new Member();
-            member1.setUsername("hello");
+            member1.setUsername("member1");
+            member1.setTeam(team);
             em.persist(member1);
 
             em.flush();
             em.clear();
 
+            List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+
             Member findMember = em.find(Member.class, member1.getId());
-            System.out.println("findMember = " + findMember.getClass()); // Member
+            System.out.println("findMember = " + findMember.getTeam().getClass());
 
-            Member refMember = em.getReference(Member.class, member1.getId());
-            System.out.println("refMember = " + refMember.getClass()); // Proxy
+            System.out.println("==========");
+            System.out.println("team name : " + findMember.getTeam().getName());; //초기화
+            System.out.println("==========");
 
-            System.out.println("refMember == findMember : " + (findMember == refMember));
-
-            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(refMember));
-//            printMember(findMember);
-//            printMemberAndTeam(findMember);
+            printMember(findMember);
+            printMemberAndTeam(findMember);
 
             /*Member member = new Member();
             member.setUsername("userA");
