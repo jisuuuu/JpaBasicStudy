@@ -17,7 +17,23 @@ public class JpaMain {
 
         //code
         try {
-            Team team = new Team();
+
+            Child child1 = new Child();
+            Child child2 = new Child();
+
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
+
+            em.flush();
+            em.clear();
+
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
+
+            /*Team team = new Team();
             team.setName("teamA");
             em.persist(team);
 
@@ -41,7 +57,7 @@ public class JpaMain {
             printMember(findMember);
             printMemberAndTeam(findMember);
 
-            /*Member member = new Member();
+            Member member = new Member();
             member.setUsername("userA");
             member.setCreatedBy("kim");
             member.setCreatedDate(LocalDateTime.now());
